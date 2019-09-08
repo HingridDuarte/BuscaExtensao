@@ -1,0 +1,5 @@
+package BuscaExtensao;
+
+public enum Cor {
+    Preto, Cinza, Branco;
+}
