@@ -1,0 +1,90 @@
+package BuscaExtensao;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Grafo {
+
+    private ArrayList<Vertice> vertices = null;
+    private ArrayList<Aresta> arestas = null;
+
+    public Grafo() {
+        vertices = new ArrayList<>();
+        arestas = new ArrayList<>();
+    }
+
+    public ArrayList<Vertice> getVertices() {
+        return vertices;
+    }
+
+    public void setVertices(ArrayList<Vertice> vertices) {
+        this.vertices = vertices;
+    }
+
+    public ArrayList<Aresta> getArestas() {
+        return arestas;
+    }
+
+    public void setArestas(ArrayList<Aresta> arestas) {
+        this.arestas = arestas;
+    }
+
+    public void addVertice(Vertice novoVertice) {
+        vertices.add(novoVertice);
+    }
+
+    public Aresta addAresta(Vertice v1, Vertice v2) {
+        Aresta novaAresta = new Aresta(v1, v2);
+        novaAresta.setId(arestas.size());
+        arestas.add(novaAresta);
+        return novaAresta;
+    }
+
+    public int qtdVertices() {
+        return vertices.size();
+    }
+
+    public int qtdArestas() {
+        return arestas.size();
+    }
+
+    public Aresta buscarAresta(int idAresta) {
+        Aresta busca = null;
+        if (idAresta < arestas.size() && idAresta >= 0) {
+            busca = arestas.get(idAresta);
+        }
+        return busca;
+    }
+
+    public Vertice buscarVertice(int idVertice) {
+        Vertice busca = null;
+        if (idVertice < vertices.size() && idVertice >= 0) {
+            busca = vertices.get(idVertice);
+        }
+        return busca;
+    }
+
+    public void bfs(Grafo grafo, Vertice s) {
+        Queue q = new LinkedList<>();
+        int i;
+        int n = qtdVertices();
+        for (i = 0; i < n; i++) {
+            buscarVertice(i).setCor(Cor.Branco);
+        }
+        s.setCor(Cor.Cinza);
+        q.add(s);
+        while (!q.isEmpty()) {
+            Vertice u = (Vertice) q.poll();
+            u.getAdjacentes();
+            for (Vertice v : u.getAdjacentes()) {
+                if (v.getCor() == Cor.Branco) {
+                    v.setCor(Cor.Cinza);
+                    q.add(v);
+                }
+            }
+            u.setCor(Cor.Preto);
+        }
+    }
+}
+
